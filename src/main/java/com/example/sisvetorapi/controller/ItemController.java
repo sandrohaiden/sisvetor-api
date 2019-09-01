@@ -5,7 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sisvetorapi.model.Item;
+import com.example.sisvetorapi.model.SubItem;
 import com.example.sisvetorapi.repository.ItemRepository;
 import com.example.sisvetorapi.exception.ResourceNotFoundException;
 
@@ -48,5 +51,15 @@ public class ItemController {
 				.orElseThrow(() -> new ResourceNotFoundException("Item", "id", id));
 		newItem.setId(id);
 		return itemRepository.save(newItem);
+	}
+	
+	@DeleteMapping("itens/{id}")
+	public ResponseEntity<?> deleteSubItem(@PathVariable(value = "id") Long id) {
+		Item item = itemRepository.findById(id)
+	            .orElseThrow(() -> new ResourceNotFoundException("Note", "id", id));
+
+	    itemRepository.delete(item);
+
+	    return ResponseEntity.ok().build();
 	}
 }
