@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sisvetorapi.exception.ResourceNotFoundException;
@@ -32,6 +33,11 @@ public class SubItemController {
 	@GetMapping("/subitens")
 	public List<SubItem> getAllSubItens(){
 		return subItemRepository.findAllByOrderByNomeAsc();
+	}
+	
+	@GetMapping("/subitens/search")
+	public List<SubItem> finByNome(@RequestParam("nome")String nome){
+		return subItemRepository.findByNomeContainingIgnoreCase(nome);
 	}
 	
 	@PostMapping("/subitens")
